@@ -1,0 +1,17 @@
+body{
+    background-color: #E3EDF9;
+}
+.signUp{
+    width: 25%;
+    margin: 50px auto;
+    padding: 40px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 1px 1px 8px rgba(0,0,0,0.065);
+}
+label{
+    display: block;
+}
+input{
+    display: block;
+}
