@@ -1,9 +1,12 @@
 import { useState } from 'react'
-import './App.css'
+import './assets/App.css'
 import Alert from './components/Alert'
+import Dashboard from './pages/Dashboard'
+import { createBrowserRouter, useNavigate } from 'react-router-dom'
 
 
 function App() {
+  const navigate = useNavigate();
   return (
     <>
       <div className='signUp'>
@@ -15,7 +18,7 @@ function App() {
             <input type='text' id='email' autoComplete='off'/>
             <label htmlFor="password">Password</label>
             <input type='password' id='password' autoComplete='off'/>
-            <button type="button" className="btn btn-primary">Login</button>
+            <button type="button" className="btn btn-primary" onClick={() => navigate ("/Dashboard")}>Login</button>
           </div>
         </form>
         
