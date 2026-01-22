@@ -1,0 +1,41 @@
+/* Default */
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.min-height{
+  min-height: 91vh;
+}
+/*Side Bar */
+.side-Bar{
+  width: 150px;
+}
+
+.sidebar-Icons{
+  width: 60px;
+  height: 60px;
+}
+
+.side-Toggle-Menu{
+  width: 200px;
+}
+
+
+/*NavBar */
+.profile-Icon{
+  width: 50px;
+  height: 50px;
+}
+
+/*Generate Document Number */
+.main-Card{
+  min-width: 164vh;
+}
+.btn-IssuanceType{
+  width: 200px;
+}
