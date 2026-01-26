@@ -1,9 +1,25 @@
 import React from 'react'
 
+// Declaring array for Type of documents
+ const items = [
+    '--SELECT--',
+    'Administrative Order',
+    'Memorandum Circular',
+    'Office Circular',
+    'Office Memorandum',
+    'Office Order',
+    'Resolution',
+    'CSC Issuance',
+    'OLA Opinion',
+    'MOA / MOU',
+    'Project Contract',
+    'Memorandum Order'
+  ]; 
+  
 const AddDocumentNo = () => {
   return (
     <div>
-      <div className='bg-body-tertiary m-2 main-Card min-height'>
+      <div>
         <h2>Generate Document Number</h2>
 
         <div className="dropdown-center">
@@ -12,18 +28,8 @@ const AddDocumentNo = () => {
                 --SELECT--
             </button>
             <ul className="dropdown-menu">
-                <li><a className="dropdown-item" >--SELECT--</a></li>
-                <li><a className="dropdown-item" >Administrative Order</a></li>
-                <li><a className="dropdown-item" >Memorandum Circular</a></li>
-                <li><a className="dropdown-item" >Office Circular</a></li>
-                <li><a className="dropdown-item" >Officec Memorandum</a></li>
-                <li><a className="dropdown-item" >Office Order</a></li>
-                <li><a className="dropdown-item" >Resolution</a></li>
-                <li><a className="dropdown-item" >CSC Issuance</a></li>
-                <li><a className="dropdown-item" >OLA Opinion</a></li>
-                <li><a className="dropdown-item" >MOA / MOU</a></li>
-                <li><a className="dropdown-item" >Project Contract</a></li>
-                <li><a className="dropdown-item" >Memorandum Order</a></li>
+                {/* Applying array items to the dropdown menu */}
+                {items.map(item => <li key={item}><a className="dropdown-item" >{item}</a></li>)}
             </ul>
         </div>
         <button type="button" className="btn btn-primary">Generate</button>
