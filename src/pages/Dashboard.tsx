@@ -13,8 +13,10 @@ const Dashboard = () => {
         <Navbar />
         <div className='m-1 side-Menu'>
           <Sidebar />
+          <div className="dashboard-content">
           <DocumentsToggle />
           <AddDocumentNo />
+          </div>
         </div>
     </div>
   )
