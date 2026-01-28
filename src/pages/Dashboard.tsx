@@ -5,26 +5,30 @@ import Navbar from '../components/Navbar'
 import Sidebar from '../components/Sidebar'
 import DocumentsToggle from '../components/DocumentsToggle'
 import AddDocumentNo from '../components/AddDocumentNo'
+import AddNewEmp from '../components/AddNewEmp'
+import DashboardBanner from '../components/DashboardBanner'
 
 const Dashboard = () => {
-  const [isDocOpen, setIsDocOpen] = useState(false);
-  const toggleDocMenu = () =>{
-    setIsDocOpen (!isDocOpen);
-  };
+const [activeView, setActiveView] = useState<"docs" | "addUser" | null>(null);
 
   return (
     <div>
         <Navbar />
         <div className='m-1 side-Menu'>
-          <Sidebar onIconClick={toggleDocMenu}/>
+          <Sidebar
+            onDocsClick={() => setActiveView("docs")}
+            onAddUserClick={() => setActiveView("addUser")}
+          />
           <div className="dashboard-content">
-            {isDocOpen ? ( 
-              <DocumentsToggle />
-            ) : (
-              <div className='bg-body-tertiary m-2 main-Card min-height-center'></div>
-            )}
-          {/* <AddDocumentNo /> */}
+            {activeView === "docs" && <DocumentsToggle />}
+            {activeView === "addUser" && <AddNewEmp />}
+            <div>
+                {activeView === null && <DashboardBanner />}
+
+            </div>
+            
           </div>
+            {/* <AddDocumentNo /> */}
         </div>
     </div>
   )
