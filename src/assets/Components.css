@@ -63,6 +63,15 @@
    background-color: #4cc27a;
 }
 
+.side-Toggle-Menu .list-group-item.active {
+  background-color: #4cc27a !important;
+  color: #ffffff;
+}
+
+.side-Toggle-Menu .list-group-item.active:hover {
+  background-color: #4cc27a !important;
+}
+
 /* Navbar */
 .profile-Icon {
   width: 45px;
@@ -81,13 +90,10 @@
 }
 
 .main-Card h2 {
-  font-weight: 800;
+  font-weight: 700;
   margin-bottom: 35px;
 }
-
-/* =========================
-   FORM ROW
-========================= */
+/* Dropdown layout */
 .dropdown-center {
   display: flex;
   align-items: center;
@@ -113,4 +119,16 @@
   font-weight: 700;
   background-color: #243c8f;
   border: none;
+}
+
+.logo-Icon {
+  
+  width: 100px;
+  height: auto;
+}
+
+/* Shadow Under the Navbar */
+.navbar { 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000; 
 }
