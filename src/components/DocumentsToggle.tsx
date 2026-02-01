@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import AddDocumentNo from './AddDocumentNo';
+import UploadDoc from './UploadDoc';
+import SearchDoc from './SearchDoc';
 import IncomingDoc from './IncomingDoc';
 
 const items = [
@@ -17,8 +19,8 @@ const DocumentsToggle = () => {
   const renderComponent = () => {
     switch (activeIndex) {
       case 0: return <AddDocumentNo />;
-      // case 1: return <UploadDoc />;
-      // case 2: return <SearchDoc />;
+      case 1: return <UploadDoc />;
+      case 2: return <SearchDoc />;
       case 3: return <IncomingDoc />;
       default: return null;
     }
