@@ -9,7 +9,7 @@ function App() {
   const navigate = useNavigate();
   const [array, setArray] = useState([]);
   // Create states for the inputs
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const fetchApi = async () => {
@@ -24,7 +24,7 @@ function App() {
   const handleLogin = async () =>{
     try{
       const response = await axios.post("http://localhost:8080/api/login", {
-        email: email,
+        username: username,
         password: password
       });
       if(response.data.success){
@@ -53,13 +53,13 @@ function App() {
           <h1>Login</h1>
           <h2>Login to your account</h2>
           <div className='inputGroup'>
-            <label htmlFor="email">E-mail Address</label>
+            <label htmlFor="username">Username</label>
             <input 
               type='text' 
-              id='email' 
+              id='username' 
               autoComplete='off'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               />
 
             <label htmlFor="password">Password</label>

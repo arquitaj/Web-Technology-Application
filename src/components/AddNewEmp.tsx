@@ -5,24 +5,24 @@ import axios from 'axios';
 
 const AddNewEmp = () => {
   // Create states for user inputs
-  // const [employeeID, setEmployeeID] = useState("")
+  const [employeeID, setEmployeeID] = useState("")
   const [fname, setFname] = useState("");
   const [mname, setMname] = useState("");
   const [lname, setLname] = useState("");
   const [email, setEmail] = useState("");
-  // const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
 
   const handlebtnRegister= async () => {
     try{
       const response = await axios.post("http://localhost:8080/home/addEmployee", {
-        employeeID: "000003",
+        employeeID: employeeID,
         fname: fname,
         mname: mname,
         lname: lname,
         email: email,
-        userName: "lr.lvllanto@mmdc.mcl.edu.ph", 
+        userName: userName, 
         password: password,
         role: role
       });
@@ -42,13 +42,13 @@ const AddNewEmp = () => {
 
         <div className="form-grid">
           <div className="form-group">
-            <label>First Name</label>
-            <input 
-              type="text"
-              autoComplete='off'
-              value={fname}
-              onChange={(e) => setFname(e.target.value)}/>
-          </div>
+              <label>Employee ID</label>
+              <input 
+                type="text"
+                autoComplete='off'
+                value={employeeID}
+                onChange={(e) => setEmployeeID(e.target.value)}/>
+            </div>
 
           <div className="form-group">
             <label>Email</label>
@@ -57,6 +57,24 @@ const AddNewEmp = () => {
               autoComplete='off'
               value={email}
               onChange={(e) => setEmail(e.target.value)}/>
+          </div>
+
+          <div className="form-group">
+            <label>First Name</label>
+            <input 
+              type="text"
+              autoComplete='off'
+              value={fname}
+              onChange={(e) => setFname(e.target.value)}/>
+          </div>
+        
+          <div className="form-group">
+            <label>Username</label>
+            <input 
+              type="text"
+              autoComplete='off'
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}/>
           </div>
 
           <div className="form-group">

@@ -1,6 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import { type } from 'node:os';
+import axios from 'axios';
 
 const app = express();
 const router = express.Router();
@@ -22,7 +24,7 @@ mongoose.connect(ATLAS_URI)
 
 // 1. Ensure you have a User Model defined
 const User = mongoose.model('User', new mongoose.Schema({
-    email: { type: String, required: true },
+    username: { type: String, required: true },
     password: { type: String, required: true }
 },{collection:"employeelists"}));
 
@@ -33,12 +35,11 @@ app.get("/api", (req, res) => {
 });
 
 app.post("/api/login", async(req, res) => {
-    console.log("login route here!")
-    console.log("Email:", req.body.email);
-    console.log("Password:", req.body.password);
-    const {email, password} = req.body; 
+    const {username, password} = req.body; 
+    console.log("username:", username);
+    console.log("Password:", password);
     try{
-        const user = await User.findOne({email:email});    //Find user by email
+        const user = await User.findOne({username:username});    //Find user by email
         console.log("User", user)
         if(!user){
             return res.status(401).json({success: false, message: "User not found!"});
@@ -54,6 +55,7 @@ app.post("/api/login", async(req, res) => {
     }
 });
 
+//************Adding of New Employe********************************************
 const employeeList = mongoose.model("employeelists", new mongoose.Schema({
         employeeID: {type: String, require: true},
         firstName: { type: String, required: true },
@@ -67,10 +69,7 @@ const employeeList = mongoose.model("employeelists", new mongoose.Schema({
 
 
 app.post('/home/addEmployee', async(req, res) => {
-    const {employeeID, firstName, middleName, lastName, email, username, password, role} = req.body;
-    console.log("fname", firstName);
-    console.log("username", username);
-    console.log("role", role);
+    const {employeeID, fname, mname, lname, email, userName, password, role} = req.body;
     try{
         console.log(employeeID)
             const employee = await employeeList.findOne({employeeID: employeeID});
@@ -80,11 +79,11 @@ app.post('/home/addEmployee', async(req, res) => {
                 if(!existingEmail){
                    const newEmployee = new employeeList({
                     employeeID : employeeID,
-                    firstName : firstName,
-                    middleName : middleName,
-                    lastName : lastName,
+                    firstName : fname,
+                    middleName : mname,
+                    lastName : lname,
                     email : email,
-                    username : username,
+                    username : userName,
                     password : password,
                     role: role
                    });
@@ -102,6 +101,49 @@ app.post('/home/addEmployee', async(req, res) => {
     }
 })
 
+//*******Upload Document**************
+const uploadDocument = mongoose.model("documentlists", new mongoose.Schema({
+    documentNo: {type: String, required: true},
+    issuanceType: {type: String, required: true},
+    series: {type: Number, required: true},
+    date: {type: Date, required: true},
+    subject: {type: String, required: false},
+    keyWord: {type:String, required: false}
+}, {collection:"documentlists"}));
+
+app.post('/home/uploadDocument', async(req, res) => {
+    console.log("I'm in");
+    const {documentNo, issuanceType, series, date, subject, keyWord} = req.body;
+    try{
+        const document = await uploadDocument.findOne({documentNo:documentNo});
+        if(!document){
+            const newDocument = new uploadDocument({
+                documentNo: documentNo,
+                issuanceType: issuanceType,
+                series: series,
+                date: date,
+                subject: subject,
+                keyword: keyWord
+            });
+            await newDocument.save();
+            res.status(200).json({success: true, message: "Successfully Added New Document!"})
+        }else{
+            res.status(401).json({success: false, message: "Document Number already exist!"})
+        }
+    }catch(error){
+        return res.status(400).json({success: false, message: "Invalid Post Request!"});
+    }
+})
+
+// *******Generate Document*********
+
+// const document = mongoose.model("documentlists", new mongoose.Schema({
+
+// }))
+
+// app.post('/home/uploadDocument', async(req, res) => {
+//     console.log('hi');
+// });
 
 // 4. LISTEN
 app.listen(8080, () => {

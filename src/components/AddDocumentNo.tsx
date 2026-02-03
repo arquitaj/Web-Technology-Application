@@ -20,20 +20,23 @@ const AddDocumentNo = () => {
   return (
     <div>
       <div>
-        <h2>Generate Document Number</h2>
+        <h2 className='text-center'>Generate Document Number</h2>
 
-        <div className="dropdown-center">
-            <label>Issuance Type:</label>
-            <button className="btn btn-secondary dropdown-toggle m-3 btn-IssuanceType" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                --SELECT--
-            </button>
-            <ul className="dropdown-menu">
-                {/* Applying array items to the dropdown menu */}
-                {items.map(item => <li key={item}><a className="dropdown-item" >{item}</a></li>)}
-            </ul>
-        </div>
-        <button type="button" className="btn btn-primary">Generate</button>
-        
+        <form className="d-flex align-items-center g-3">
+            <div className="row w-75 justify-content-center">
+                <div className="col-md-6 mb-3">
+                <label htmlFor="inputState" className="form-label">Issuance Type</label>
+                <select id="inputState" className="form-select text-center">
+                    {items.map(item => (
+                    <option key={item}>{item}</option>
+                    ))}
+                </select>
+                </div>
+            </div>
+            <div className="mb-3 justify-content-center">
+              <button type="submit" className="btn btn-primary">Genarate</button>
+            </div>
+        </form>
       </div>
     </div>
   )
