@@ -58,6 +58,14 @@
   background: #1e3a8a;
 }
 
-.btn.cancel {
+.btn.cancel, .btn.delete {
   background: #dc2626;
+}
+
+.w-13 {
+  width: 13% !important;
+}
+
+.w-10 {
+  width: 10% !important;
 }

@@ -124,7 +124,41 @@ const AddNewEmp = () => {
           <button className="btn cancel">
             <X size={18} /> Cancel
           </button>
+          <button className="btn delete">
+            <X size={18} /> Delete
+          </button>
         </div>
+      </div>
+
+      <div className='row'>
+      <div className='col-12 w-100'>
+        <table className="table table-bordered">
+          <thead>
+            <tr>
+              <th className="w-13">Employee ID</th>
+              <th className='w-13'>First Name</th>
+              <th className='w-10'>Middle Name</th>
+              <th className='w-13'>Last Name</th>
+              <th className='w-13'>Email</th>
+              <th className='w-13'>Username</th>
+              <th className='w-13'>Temp Password</th>
+              <th className='w-13'>Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{employeeID}</td>
+              <td>{fname}</td>
+              <td>{mname}</td>
+              <td>{lname}</td>
+              <td>{email}</td>
+              <td>{userName}</td>
+              <td>{password}</td>
+              <td>{role}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       </div>
     </div>
   );
