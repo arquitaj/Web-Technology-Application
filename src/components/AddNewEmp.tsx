@@ -15,6 +15,7 @@ const AddNewEmp = () => {
   const [role, setRole] = useState("");
 
   const handlebtnRegister= async () => {
+    alert(role);
     try{
       const response = await axios.post("http://localhost:8080/home/addEmployee", {
         employeeID: employeeID,
@@ -107,9 +108,9 @@ const AddNewEmp = () => {
           <div className="form-group">
             <label>Role</label>
             <select 
-              defaultValue="Employee"
               value={role}
               onChange={(e) => setRole(e.target.value)}>
+              <option></option>  
               <option value="Employee">Employee</option>
               <option value="Admin">Admin</option>
             </select>

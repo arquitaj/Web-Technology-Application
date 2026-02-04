@@ -72,6 +72,9 @@ app.post('/home/addEmployee', async(req, res) => {
     const {employeeID, fname, mname, lname, email, userName, password, role} = req.body;
     try{
         console.log(employeeID)
+        if(role === ""){
+            return res.status(400).json({success: false, message: "No role of employee selected!"});
+            }else{
             const employee = await employeeList.findOne({employeeID: employeeID});
             if(!employee){
                 const existingEmail = await employeeList.findOne({email:email});
@@ -95,9 +98,9 @@ app.post('/home/addEmployee', async(req, res) => {
             }else{
                 res.status(401).json({success: false, message: "Employee ID already exist!"});
             }
-        
+        }  
     }catch(error){
-        return res.status(400).json({success: false, message: "Invalid Post Request!"});
+        return res.status(400).json({success: false, message: "Please complete the form!"});
     }
 })
 
