@@ -54,10 +54,10 @@
   color: #fff;
 }
 
-.btn.save {
+.btn.save, .btn.create, .btn.edit {
   background: #1e3a8a;
 }
 
-.btn.cancel {
+.btn.cancel, .btn.delete {
   background: #dc2626;
 }

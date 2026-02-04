@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { X, Save } from "lucide-react";
+import { X, Save, Search, Delete, Edit2Icon, FilePlus } from "lucide-react";
 import "../assets/AddNewEmp.css";
 import axios from 'axios';
 
@@ -43,12 +43,13 @@ const AddNewEmp = () => {
 
         <div className="form-grid">
           <div className="form-group">
-              <label>Employee ID</label>
+              <label>Employee ID <button><Search></Search></button></label>
               <input 
                 type="text"
                 autoComplete='off'
                 value={employeeID}
                 onChange={(e) => setEmployeeID(e.target.value)}/>
+                
             </div>
 
           <div className="form-group">
@@ -118,8 +119,17 @@ const AddNewEmp = () => {
         </div>
 
         <div className="actions">
-          <button className="btn save" onClick={handlebtnRegister}>
+          <button className="btn create" onClick={handlebtnRegister}>
+            <FilePlus size={18} /> Create
+          </button>
+          <button className="btn edit">
+            <Edit2Icon size={18} /> Edit
+          </button>
+          <button className="btn save">
             <Save size={18} /> Save
+          </button>
+          <button className="btn delete">
+            <Delete size={18} /> Delete
           </button>
           <button className="btn cancel">
             <X size={18} /> Cancel
