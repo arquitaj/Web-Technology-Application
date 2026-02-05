@@ -5,6 +5,9 @@ import axios from 'axios';
 
 const AddNewEmp = () => {
   // Create states for user inputs
+  const [showModal, setShowModal] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [users, setUsers] = useState<any[]>([]);
   const [employeeID, setEmployeeID] = useState("")
   const [fname, setFname] = useState("");
   const [mname, setMname] = useState("");
@@ -14,10 +17,55 @@ const AddNewEmp = () => {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
 
-  const handlebtnRegister= async () => {
-    alert(role);
+  const fetchEmployees = async () => {
+    const response = await axios.get("http://localhost:8080/home/employees");
+    setUsers(response.data.users);
+  }
+  useEffect(() => {
+    fetchEmployees();
+  }, []);
+
+//To empty input Fields
+  const emptyInputComponents = () =>{
+    setEmployeeID(""); 
+    setFname("");
+    setMname("");
+    setLname("");
+    setEmail("");
+    setUserName("");
+    setPassword("");
+    setRole("");
+    setEditingId(null);
+  }
+  const handleUpdate = (index: number)=>{
+    const selectedUser = users[index];
+    setEditingId(selectedUser.employeeID);
+    setEmployeeID(selectedUser.employeeID); 
+    setFname(selectedUser.firstName);
+    setMname(selectedUser.middleName);
+    setLname(selectedUser.lastName);
+    setEmail(selectedUser.email);
+    setUserName(selectedUser.username);
+    setPassword(selectedUser.password);
+    setRole(selectedUser.role);
+  }
+
+  const handlebtnDelete = async() => {
     try{
-      const response = await axios.post("http://localhost:8080/home/addEmployee", {
+      const response = await axios.delete("http://localhost:8080/home/deleteEmployee",{
+        data: {employeeID}
+      });
+      alert(response.data.message);
+      fetchEmployees();
+      setShowModal(false);
+    }catch(error){
+
+    }
+  }
+    const handlebtnRegister= async () => {
+    try{
+      if(editingId === null){
+        const response = await axios.post("http://localhost:8080/home/addEmployee", {
         employeeID: employeeID,
         fname: fname,
         mname: mname,
@@ -28,8 +76,26 @@ const AddNewEmp = () => {
         role: role
       });
       if(response.data.success){
-        alert("Successfully Added NeW Employee!")
+        setUsers(response.data.users);
+        alert(response.data.message);
+        emptyInputComponents();
       }
+      }else{
+        const response = await axios.put("http://localhost:8080/home/updateEmployee", {
+          employeeID: employeeID,
+          fname: fname,
+          mname: mname,
+          lname: lname,
+          email: email,
+          userName: userName, 
+          password: password,
+          role: role
+        });
+        alert(response.data.message);
+        fetchEmployees();
+        emptyInputComponents();
+      }
+      
     }catch(error: any){
       // Axios throws an error for 401/500 status codes
       alert(error.response?.data?.message || "Failed to Add New Employee!");
@@ -38,6 +104,51 @@ const AddNewEmp = () => {
   }
   return (
     <div className="bg-body-tertiary m-2 main-Card min-height-center">
+
+      {/* <!-- Modal --> */}
+      {showModal && (
+  <>
+    {/* backdrop */}
+    <div className="modal-backdrop fade show"></div>
+
+    {/* modal */}
+    <div
+      className={`modal fade ${showModal ? "show" : ""}`}
+      tabIndex={-1}
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden={!showModal}
+      style={{ display: showModal ? "block" : "none" }} // ensures visibility
+    >
+      <div className="modal-dialog">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h1 className="modal-title fs-5" id="staticBackdropLabel">
+              Confirm to DELETE employee
+            </h1>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={() => setShowModal(false)}
+              aria-label="Close"
+            ></button>
+          </div>
+          <div className="modal-body">
+            Are you sure you want to delete this employee with ID No. <b>{employeeID}</b>?
+          </div>
+          <div className="modal-footer">
+            <button type="button" className="btn btn-primary" onClick={handlebtnDelete}>
+              Yes
+            </button>
+            <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </>
+  )}
+
       <div className="add-emp">
         <h2 className="title">New Employee</h2>
 
@@ -118,13 +229,66 @@ const AddNewEmp = () => {
         </div>
 
         <div className="actions">
-          <button className="btn save" onClick={handlebtnRegister}>
-            <Save size={18} /> Save
+          <button className="btn save {${editingId} " onClick={handlebtnRegister}>
+            <Save size={18} /> {editingId ? "Update" : "Add"}
           </button>
-          <button className="btn cancel">
+          <button className="btn cancel" onClick={emptyInputComponents}>
             <X size={18} /> Cancel
           </button>
         </div>
+      </div>
+
+      <div className='row'>
+      <div className='col-12 w-100'>
+        <table className="table table-bordered">
+          <thead>
+            <tr>
+              <th className="w-13">Employee ID</th>
+              <th className='w-13'>First Name</th>
+              <th className='w-10'>Middle Name</th>
+              <th className='w-13'>Last Name</th>
+              <th className='w-13'>Email</th>
+              <th className='w-13'>Username</th>
+              <th className='w-13'>Temp Password</th>
+              <th className='w-13'>Role</th>
+              <th className='w-13'></th>
+            </tr>
+          </thead>
+          <tbody>
+          {users.length === 0 ? (
+            <tr>
+              <td colSpan={9} className="text-center">
+                No users found
+              </td>
+            </tr>
+          ) : (
+            users.map((user, index) => (
+              <tr key={user._id}>
+                <td>{user.employeeID}</td>
+                <td>{user.firstName}</td>
+                <td>{user.middleName}</td>
+                <td>{user.lastName}</td>
+                <td>{user.email}</td>
+                <td>{user.username}</td>
+                <td>{user.password}</td>
+                <td>{user.role}</td>
+                <td>
+                  <button className="btn save" onClick={() => handleUpdate(index)}>
+                    <Save size={18} /> Edit
+                  </button>
+                  <button type="button" className="btn delete" onClick={() =>{
+                    setEmployeeID(user.employeeID);
+                    setShowModal(true);
+                  }}>
+                    <X size={18} /> Delete
+                  </button>
+                </td>
+              </tr>
+            ))
+          )}
+        </tbody>
+        </table>
+      </div>
       </div>
     </div>
   );

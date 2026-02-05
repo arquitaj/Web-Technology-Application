@@ -55,6 +55,19 @@ app.post("/api/login", async(req, res) => {
     }
 });
 
+// ***********Fetch All Employees********************************************
+app.get('/home/employees', async(req, res) => {
+    const users = await User.find();
+    console.log("users", users);
+    return res.status(200).json({
+      success: true,
+      message: "Employees fetched successfully",
+      users
+    });
+
+})
+
+
 //************Adding of New Employe********************************************
 const employeeList = mongoose.model("employeelists", new mongoose.Schema({
         employeeID: {type: String, require: true},
@@ -67,6 +80,48 @@ const employeeList = mongoose.model("employeelists", new mongoose.Schema({
         role: {type: String, required: true},
     },{collection: "employeelists"}));
 
+
+// **********Delete Employee*************************************************
+app.delete("/home/deleteEmployee", async(req, res) => {
+    console.log("Im in sa delete");
+    const {employeeID} = req.body;
+    try{
+        const deleted = await User.findOneAndDelete({employeeID:employeeID});
+        if (!deleted) {
+            return res.status(404).json({ success: false, message: "Employee not found" });
+        }
+            return res.status(200).json({ success: true, message: "Employee deleted!" });
+        } catch (err) {
+            return res.status(500).json({ success: false, message: err.message });
+        }
+});
+//***********Update Employee *************************************************
+app.put("/home/updateEmployee", async(req, res) => {
+    const {employeeID,fname, mname, lname, email, userName, password, role} = req.body;
+    const filter = {employeeID: employeeID};
+    const update = {
+        firstName : fname,
+        middleName : mname,
+        lastName : lname,
+        email : email,
+        username : userName,
+        password : password,
+        role: role
+    };
+    try{
+        const employee = await employeeList.findOneAndUpdate(filter, update,{
+            new: true,
+            unValidators: true // to ensure schema validation
+        });
+        if(!employee){
+            return res.status(404).json({success: false, message: "Employee not found!"});
+        }else{
+            return res.status(200).json({success: true,message: "Successfully updated employee!"});
+        }
+    }catch(error){
+        return res.status(401).json({success: false, message: "Failed to Update Employee!"});
+    }
+});
 
 app.post('/home/addEmployee', async(req, res) => {
     const {employeeID, fname, mname, lname, email, userName, password, role} = req.body;
@@ -91,7 +146,8 @@ app.post('/home/addEmployee', async(req, res) => {
                     role: role
                    });
                    await newEmployee.save();
-                   res.status(200).json({success: true, message: "Sucessfully Added NeW Employee!"});
+                   const users = await User.find();
+                   res.status(200).json({success: true, message: "Sucessfully Added NeW Employee!", users: users});
                 }else{
                     res.status(401).json({success: false, message: "Email already exist!"});
                 }
