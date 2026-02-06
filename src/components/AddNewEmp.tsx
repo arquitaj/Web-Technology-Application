@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { X, Save } from "lucide-react";
+import { X, Save, Edit2 } from "lucide-react";
 import "../assets/AddNewEmp.css";
 import axios from 'axios';
 
@@ -135,8 +135,8 @@ const AddNewEmp = () => {
           <div className="modal-body">
             Are you sure you want to delete this employee with ID No. <b>{employeeID}</b>?
           </div>
-          <div className="modal-footer">
-            <button type="button" className="btn btn-primary" onClick={handlebtnDelete}>
+          <div className="modal-footer d-flex justify-content-center">
+            <button type="button" className="btn btn-primary btn-yes" onClick={handlebtnDelete}>
               Yes
             </button>
             <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>
@@ -273,15 +273,17 @@ const AddNewEmp = () => {
                 <td>{user.password}</td>
                 <td>{user.role}</td>
                 <td>
-                  <button className="btn save" onClick={() => handleUpdate(index)}>
-                    <Save size={18} /> Edit
+                  <div className='d-flex gap-3'>
+                  <button className="btn-edit" onClick={() => handleUpdate(index)}>
+                    <Edit2 size={18} />
                   </button>
-                  <button type="button" className="btn delete" onClick={() =>{
+                  <button type="button" className="btn-delete" onClick={() =>{
                     setEmployeeID(user.employeeID);
                     setShowModal(true);
                   }}>
-                    <X size={18} /> Delete
+                    <X size={18} />
                   </button>
+                  </div>
                 </td>
               </tr>
             ))
